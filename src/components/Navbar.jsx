@@ -10,12 +10,13 @@ const Navbar = () => {
     return array.map((arr) => <p>Hello</p>);
   };
   return (
-    <nav className="flex flex-col fixed pt-3 px-3 top-0 left-0 right-0 bg-white border-b">
+    <nav className="flex flex-col fixed pt-2 px-2 md:pt-3 md:px-3 top-0 left-0 right-0 bg-white border-b z-50">
       <section className="flex gap-2 items-center">
         <div>
           <img
             src={logo}
             alt="Searchsplash logo; original version of Unsplash logo"
+            className="w-6 md:w-10"
           />
         </div>
         {/* For below search-input, I have to implement:
@@ -24,7 +25,7 @@ const Navbar = () => {
                 - search function for Enter keyboard and search icon
                 - search terms should be stored into localStorage and the history of search be displayed as a floating element when input is active
         */}
-        <div className="w-full flex items-center gap-2 bg-zinc-100 rounded-full p-2">
+        <div className="w-full flex items-center gap-2 bg-zinc-100 rounded-full px-2 p-1 md:p-2">
           <div>
             <IoSearch className=" text-gray-400" />
           </div>
@@ -35,7 +36,7 @@ const Navbar = () => {
           />
         </div>
       </section>
-      <section className="flex gap-3 w-full relative py-5">
+      <section className="flex gap-3 w-full relative py-2 md:py-5">
         {/* Below is the arrow to move the topic bars.
         The things i have to apply to arrows:
           - moving functionality

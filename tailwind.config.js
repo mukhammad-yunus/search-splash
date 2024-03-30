@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       fontFamily:{
-        sans: ["Roboto", 'sans-serif']
+        custom: ["Lato", 'sans-serif']
       },
       spacing: {
         '280': '280px'
