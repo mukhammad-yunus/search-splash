@@ -27,13 +27,40 @@ const Navbar = () => {
   const handleSearch = (e) => {
     if (!inputVal) return;
     if (e?.key === "Enter" || e === "search") {
-      setSearchHistory((prev) => [inputVal, ...prev]);
+      inputRef.current.blur();
+      setIsInputFocused(false)
+      setSearchHistory((prev) => [...new Set([inputVal, ...prev])]);
     }
   };
+  const handleHistorySearch = (item)=>{
+    setInputVal(item);
+    const filteredArray = searchHistory.filter(itm => itm !== item);
+    setSearchHistory([item, ...filteredArray]);
+  }
+
   useEffect(() => {
     const searchHistoryAsStr = JSON.stringify(searchHistory);
     localStorage.setItem("history", searchHistoryAsStr);
   }, [searchHistory]);
+  useEffect(() => {
+    const handleClick = (e) => {
+      const purpose = e.target.dataset.purpose
+      if (purpose !== 'not-blur' && purpose !=='clear-history') {
+        setIsInputFocused(false);
+      } else if(purpose === 'clear-history'){
+        const isEmpty = !((getHistory()).length) // Checks if the local storage is empty
+        setIsInputFocused(false)
+        if(isEmpty) return;
+        localStorage.removeItem('history');
+        setSearchHistory([]);
+
+      }
+    };
+    document.addEventListener("click", handleClick);
+    return () => {
+      document.removeEventListener("click", handleClick);
+    };
+  }, []);
 
   //I have to replace below with the actual topic array from the api
   const topicArr = new Array(20).fill(0);
@@ -54,15 +81,10 @@ const Navbar = () => {
             className="w-6 sm:w-10"
           />
         </div>
-        {/* For below search-input, I have to implement:
-                - change in div's bg when the input is active
-                - search function for Enter keyboard and search icon
-                - search terms should be stored into localStorage and the history of search be displayed as a floating element when input is active
-                -add x icon inside of search-bar to delete the input value
-        */}
         <div className={inputParentCName}>
           <div>
             <IoSearch
+              data-purpose="not-blur"
               className={` text-gray-400 cursor-pointer hover:text-gray-950 ${
                 isInputFocused && "text-gray-500"
               }`}
@@ -70,38 +92,43 @@ const Navbar = () => {
             />
           </div>
           <input
+            data-purpose="not-blur"
             type="text"
             className="w-full bg-transparent placeholder:text-gray-400 focus:outline-none"
             placeholder="Search images"
             onFocus={() => setIsInputFocused(true)}
-            onBlur={() => setIsInputFocused(false)}
+            // onBlur={() => setIsInputFocused(false)}
             onKeyDown={handleSearch}
             onChange={(e) => setInputVal(e.target.value)}
             value={inputVal}
             ref={inputRef}
           />
-          {/* 
-                - Display search history got from localstorage
-                - Implement a function for replacing the current search value by the one clicked in the history
-                - implement clear function for the history
-          */}
-          {!isInputFocused && (
-            <div className="absolute left-0 right-0 w-full min-h-32 z-20 px-3 border translate-y-3/4 bg-white rounded-md">
-              <div className="flex flex-wrap gap-1 py-3 sm:gap-4">
-                <h3>Recent searches</h3>
-                <p className="underline text-neutral-300 cursor-pointer hover:text-neutral-950">
+          {isInputFocused && searchHistory.length && (
+            <div
+              data-purpose="not-blur"
+              className="absolute left-0 right-0 w-full min-h-32 z-20 px-3 border translate-y-3/4 bg-white rounded-md"
+            >
+              <div
+                data-purpose="not-blur"
+                className="flex flex-wrap gap-1 py-3 sm:gap-4"
+              >
+                <h3 data-purpose="not-blur">Recent searches</h3>
+                <p
+                  data-purpose="clear-history"
+                  className="underline text-neutral-300 cursor-pointer hover:text-neutral-950"
+                >
                   clear
                 </p>
               </div>
-              <div className="flex flex-wrap gap-2 pb-3">
+              <div
+                data-purpose="not-blur"
+                className="flex flex-wrap gap-2 pb-3"
+              >
                 {searchHistory?.map((item) => {
                   return (
                     <p
                       className="p-2 border rounded text-neutral-500 cursor-pointer transition-all hover:text-neutral-700 hover:bg-neutral-100"
-                      onClick={() => {
-                        setInputVal(item);
-                        handleSearch('search');
-                      }}
+                      onClick={()=> handleHistorySearch(item)}
                     >
                       {item}
                     </p>
@@ -110,8 +137,9 @@ const Navbar = () => {
               </div>
             </div>
           )}
-          {inputVal && (
+          {inputVal && isInputFocused && (
             <RxCross2
+              data-purpose="not-blur"
               className="cursor-pointer hover:text-red-500"
               onClick={() => {
                 setInputVal("");
