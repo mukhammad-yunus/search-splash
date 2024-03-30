@@ -6,17 +6,17 @@ const Header = () => {
   const colArr = new Array(4).fill(0)
   const displayColl = ()=>(colArr.map(arr=>{
     return (
-      <div className="flex items-center gap-2 cursor-pointer rounded transition-all group hover:bg-zinc-600">
-        <img src={sample} alt="" className="block w-9 h-9 object-cover rounded"/>
+      <div className="flex items-center gap-2 cursor-pointer rounded transition-all px-2 hover:bg-zinc-100">
+        <img src={sample} alt="" className="block w-7 h-7 object-cover rounded"/>
         <div className="">
-          <p className="font-bold text-sm group-hover:text-zinc-200">Shot on Iphone</p>
-          <p className=" text-xs group-hover:text-zinc-200">by Behnam Norouzi</p>
+          <p className="font-bold text-sm">Shot on Iphone</p>
+          <p className=" text-xs">by Behnam Norouzi</p>
         </div>
       </div>
     )
   }))
   return (
-    <header className="grid grid-cols-small-header grid-rows-custom-header gap-x-4 overflow-x-scroll no-scrollbar md:grid-cols-usual-header lg:grid-cols-big-screen-header justify-between mt-40 mb-12">
+    <header className="grid grid-cols-small-header grid-rows-custom-header gap-x-4 overflow-x-scroll no-scrollbar md:grid-cols-usual-header lg:grid-cols-big-screen-header justify-between mt-24 sm:mt-40 mb-12">
       <section className="h-full flex flex-col justify-end">
         <div className="mb-4">
           <h1 className=" text-[40px] font-bold">Searchsplash</h1>
@@ -42,9 +42,9 @@ const Header = () => {
         </div>
       </section>
       <section className="h-full border rounded-md p-3 flex flex-col justify-between">
-        <div className="flex items-center justify-between pt-3">
+        <div className="flex items-center justify-between pt-3 px-2">
           <p className="font-bold">Collections</p>
-          <a href="#" className="block">See all</a>
+          <a href="#" className="block hover:underline">See all</a>
         </div>
         <div className="flex flex-col gap-4">
           {displayColl()}
