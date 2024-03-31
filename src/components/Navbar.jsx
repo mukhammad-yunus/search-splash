@@ -3,6 +3,7 @@ import logo from "../assets/logo.svg";
 import { IoSearch } from "react-icons/io5";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { RxCross2 } from "react-icons/rx";
+import { Link, NavLink } from "react-router-dom";
 
 const getHistory = () => {
   const searchArr = JSON.parse(localStorage.getItem("history"));
@@ -65,21 +66,23 @@ const Navbar = () => {
   //I have to replace below with the actual topic array from the api
   const topicArr = new Array(20).fill(0);
   const renderTopics = (array) => {
-    return array.map((arr) => (
-      <p className="text-neutral-600 cursor-pointer px-2 box-content hover:shadow hover:text-neutral-950">
-        Hello
-      </p>
+    return array.map((arr, index) => (
+      <NavLink to={`/t/hello${index}`} className={({isActive})=> ` block cursor-pointer px-2 box-content hover:shadow hover:text-neutral-950 ${isActive ? "text-neutral-900 border-b border-b-black":"text-neutral-600"}`}>
+        Hello{index}
+      </NavLink>
     ));
   };
   return (
     <nav className="flex flex-col fixed pt-2 px-2 md:pt-3 md:px-3 top-0 left-0 right-0 bg-white border-b z-20">
       <section className="flex gap-2 items-center sm:gap-4">
         <div>
-          <img
-            src={logo}
-            alt="Searchsplash logo; original version of Unsplash logo"
-            className="w-6 sm:w-10"
-          />
+          <Link to='/'>
+            <img
+              src={logo}
+              alt="Searchsplash logo; original version of Unsplash logo"
+              className="w-6 sm:w-10"
+            />
+          </Link>
         </div>
         <div className={inputParentCName}>
           <div>

@@ -1,9 +1,10 @@
 import React from "react";
 import { IoArrowDown } from "react-icons/io5";
 import { FaHeart } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 const Image = ({ details }) => {
   return (
-    <div className="relative rounded md:overflow-hidden mb-8 md:mb-2">
+    <Link to={`/photo/${"photoId"}`} className=" block relative rounded md:overflow-hidden mb-8 md:mb-2">
       {/* Below code is for the SMALLER screen */}
       <div className="flex items-center gap-1 mb-2 sm:hidden">
         <img
@@ -57,7 +58,7 @@ const Image = ({ details }) => {
         </div>
         <button className="block border rounded px-3 text-sm">Download</button>
       </div>
-    </div>
+    </Link>
   );
 };
 

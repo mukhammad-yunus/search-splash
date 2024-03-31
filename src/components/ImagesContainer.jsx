@@ -1,6 +1,6 @@
 import React from "react";
 import Masonry from "react-masonry-css";
-import Image from "./helper/Image";
+import Image from "./helper/ImageContainer";
 
 import sample from '../assets/sample.jpg'
 import sample2 from '../assets/sample2.jpg'

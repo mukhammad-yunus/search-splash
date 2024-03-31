@@ -16,7 +16,7 @@ const Header = () => {
     )
   }))
   return (
-    <header className="grid grid-cols-small-header grid-rows-custom-header gap-x-4 overflow-x-scroll no-scrollbar md:grid-cols-usual-header lg:grid-cols-big-screen-header justify-between mt-24 sm:mt-40 mb-12">
+    <header className="grid grid-cols-small-header grid-rows-custom-header gap-x-4 overflow-x-scroll no-scrollbar md:grid-cols-usual-header lg:grid-cols-big-screen-header justify-between mb-12">
       <section className="h-full flex flex-col justify-end">
         <div className="mb-4">
           <h1 className=" text-[40px] font-bold">Searchsplash</h1>
