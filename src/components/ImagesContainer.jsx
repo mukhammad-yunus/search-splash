@@ -17,7 +17,7 @@ const ImageContainer = () => {
   return (
     <Masonry
       breakpointCols={breakpointColumnsObj}
-      className="flex gap-2"
+      className="flex gap-6"
     >
       {newArr.map((arr, index)=>{
         const num = Math.floor(Math.random() * 2) + 1;

@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import logo from "../assets/logo.svg";
 import { IoSearch } from "react-icons/io5";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { RxCross2 } from "react-icons/rx";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import ApiContext from "../contexts/ApiContext";
 
 const getHistory = () => {
   const searchArr = JSON.parse(localStorage.getItem("history"));
@@ -16,8 +17,9 @@ const getHistory = () => {
 };
 
 const Navbar = () => {
+  const {searchInputValue, setSearchInputValue} = useContext(ApiContext);
+  const navigate = useNavigate();
   const inputRef = useRef(null);
-  const [inputVal, setInputVal] = useState("");
   const [searchHistory, setSearchHistory] = useState(getHistory());
 
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -26,15 +28,16 @@ const Navbar = () => {
   }`;
 
   const handleSearch = (e) => {
-    if (!inputVal) return;
+    if (!searchInputValue) return;
     if (e?.key === "Enter" || e === "search") {
       inputRef.current.blur();
       setIsInputFocused(false)
-      setSearchHistory((prev) => [...new Set([inputVal, ...prev])]);
+      setSearchHistory((prev) => [...new Set([searchInputValue, ...prev])]);
+      navigate(`/s/photos/${searchInputValue}`);
     }
   };
   const handleHistorySearch = (item)=>{
-    setInputVal(item);
+    setSearchInputValue(item);
     const filteredArray = searchHistory.filter(itm => itm !== item);
     setSearchHistory([item, ...filteredArray]);
   }
@@ -67,7 +70,7 @@ const Navbar = () => {
   const topicArr = new Array(20).fill(0);
   const renderTopics = (array) => {
     return array.map((arr, index) => (
-      <NavLink to={`/t/hello${index}`} className={({isActive})=> ` block cursor-pointer px-2 box-content hover:shadow hover:text-neutral-950 ${isActive ? "text-neutral-900 border-b border-b-black":"text-neutral-600"}`}>
+      <NavLink to={`/t/hello${index}`} className={({isActive})=> ` block cursor-pointer px-2 box-content hover:shadow hover:text-neutral-950 ${isActive ? "text-neutral-900 border-b-2 font-bold border-b-black ":"text-neutral-600"}`}>
         Hello{index}
       </NavLink>
     ));
@@ -102,8 +105,8 @@ const Navbar = () => {
             onFocus={() => setIsInputFocused(true)}
             // onBlur={() => setIsInputFocused(false)}
             onKeyDown={handleSearch}
-            onChange={(e) => setInputVal(e.target.value)}
-            value={inputVal}
+            onChange={(e) => setSearchInputValue(e.target.value)}
+            value={searchInputValue}
             ref={inputRef}
           />
           {isInputFocused && searchHistory.length && (
@@ -140,12 +143,12 @@ const Navbar = () => {
               </div>
             </div>
           )}
-          {inputVal && isInputFocused && (
+          {searchInputValue && isInputFocused && (
             <RxCross2
               data-purpose="not-blur"
               className="cursor-pointer hover:text-red-500"
               onClick={() => {
-                setInputVal("");
+                setSearchInputValue("");
                 inputRef.current.focus();
               }}
               size={20}
